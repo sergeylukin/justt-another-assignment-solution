@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@justt/api-interfaces": ["libs/api-interfaces/src/index.ts"],
       "@justt/front-website/data-access-feed": [
         "libs/front-website/data-access-feed/src/index.ts"
       ],

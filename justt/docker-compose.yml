@@ -12,13 +12,12 @@ x-justt-volumes: &justt-volumes
 services:
   api:
     build:
-      context: .
-      dockerfile: Dockerfile.api
-      args:
-        PORT: 3333
+      context: ./
+      target: development
+      dockerfile: ./apps/api/Dockerfile
     environment:
       - DATABASE_URL="postgresql://prisma:prisma@postgres:5432/prisma?schema=public"
-    command: ["./scripts/wait-for-it.sh", "postgres:5432", "--", "./scripts/docker-bootstrap-api.sh"]
+    command: ["./scripts/wait-for-it.sh", "postgres:5432", "--", "./scripts/docker-api-dev.sh"]
     depends_on:
       - postgres
     restart: unless-stopped
@@ -32,15 +31,18 @@ services:
 
   app:
     build:
-      context: .
-      args:
-        PORT: 4200
+      context: ./
+      target: builder
+      cache_from:
+        - nginx:1.19.2
+      dockerfile: ./apps/front-website/Dockerfile
     volumes:
       *justt-volumes
     ports:
-      - '4200:4200'
+      - 4200:4200
+    command: ["npm", "run", "serve:web"]
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:4200']
+      test: ['CMD', 'curl', '-f', 'http://localhost:80']
       <<: *default-healthchecks
 
   postgres:

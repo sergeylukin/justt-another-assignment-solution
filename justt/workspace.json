@@ -4,8 +4,8 @@
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
     "front-website": "apps/front-website",
-    "front-website-data-access-feeds": "libs/front-website/data-access-feeds",
+    "front-website-data-access-feed": "libs/front-website/data-access-feed",
     "front-website-e2e": "apps/front-website-e2e",
-    "front-website-feature-feeds-list": "libs/front-website/feature-feeds-list"
+    "front-website-feature-feed-list": "libs/front-website/feature-feed-list"
   }
 }

@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import FrontWebsiteFeatureHotelsList from './front-website-feature-hotels-list';
+import FrontWebsiteFeatureFeedList from './front-website-feature-feed-list';
 
-describe('FrontWebsiteFeatureHotelsList', () => {
+describe('FrontWebsiteFeatureFeedList', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<FrontWebsiteFeatureHotelsList />);
+    const { baseElement } = render(<FrontWebsiteFeatureFeedList />);
     expect(baseElement).toBeTruthy();
   });
 });

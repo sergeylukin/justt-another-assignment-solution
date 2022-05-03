@@ -3,6 +3,6 @@
   "projects": {
     "front-website": "apps/front-website",
     "front-website-e2e": "apps/front-website-e2e",
-    "front-website-feature-hotels-list": "libs/front-website/feature-hotels-list"
+    "front-website-feature-feed-list": "libs/front-website/feature-feed-list"
   }
 }

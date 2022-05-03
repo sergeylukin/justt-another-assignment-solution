@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@justt/front-website/data-access-feed": [
+        "libs/front-website/data-access-feed/src/index.ts"
+      ],
       "@justt/front-website/feature-feed-list": [
         "libs/front-website/feature-feed-list/src/index.ts"
       ]

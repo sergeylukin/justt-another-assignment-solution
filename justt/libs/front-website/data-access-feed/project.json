@@ -1,0 +1,25 @@
+{
+  "root": "libs/front-website/data-access-feed",
+  "sourceRoot": "libs/front-website/data-access-feed/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-website/data-access-feed/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-website/data-access-feed"],
+      "options": {
+        "jestConfig": "libs/front-website/data-access-feed/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

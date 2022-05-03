@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "serve:api": "nx run api:serve",
-    "serve:web": "nx serve front-website",
+    "serve:api": "nx run api:serve --host 0.0.0.0",
+    "serve:web": "nx serve front-website --host 0.0.0.0 --open",
     "serve:all": "concurrently \"npm run serve:api\" \"npm run serve:web\"",
     "build": "nx build",
     "test": "nx test"

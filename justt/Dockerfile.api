@@ -1,0 +1,23 @@
+ARG NODE_VERSION=14.5.0-alpine
+ARG PORT=3333
+
+FROM node:${NODE_VERSION}
+
+WORKDIR /usr/app
+EXPOSE ${PORT}
+
+COPY package.json package-lock.json ./
+
+RUN apk add --no-cache bash
+
+RUN export PATH=:"$PATH:/usr/app/node_modules/.bin:" && \
+  npm i
+
+COPY . .
+
+ENV PORT=${PORT}
+
+CMD ["./scripts/docker-bootstrap-api.sh"]
+
+LABEL NODE_VERSION=${NODE_VERSION} \
+PORT=${PORT}

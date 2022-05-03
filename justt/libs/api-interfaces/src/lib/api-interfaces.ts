@@ -8,3 +8,5 @@ export interface Transaction extends BaseEntity {
   creditCardType: string;
   creditCardNumber: number;
 }
+
+export const FEED_API_URL = '/api/feed';

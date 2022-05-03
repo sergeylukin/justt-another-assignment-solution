@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Feed } from '@justt/api-interfaces';
+import { Feed, FEED_API_URL } from '@justt/api-interfaces';
 
-export function useFeed() {
+export function useFeed(keyword) {
   const [feed, setFeed] = useState<Feed[]>([]);
   useEffect(() => {
-    fetch('/api/hotes')
+    fetch(FEED_API_URL + `?keyword=${keyword}`)
       .then((r) => r.json())
       .then(setFeed);
-  }, []);
-  return games;
+  }, [keyword]);
+  return feed;
 }
 
 export default FrontWebsiteDataAccessFeed;

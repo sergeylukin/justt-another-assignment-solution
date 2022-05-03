@@ -1,0 +1,25 @@
+{
+  "root": "libs/front-website/feature-feed-list",
+  "sourceRoot": "libs/front-website/feature-feed-list/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-website/feature-feed-list/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-website/feature-feed-list"],
+      "options": {
+        "jestConfig": "libs/front-website/feature-feed-list/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

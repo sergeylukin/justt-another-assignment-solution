@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
+  price            Float    @default(0.00)
+  currency         String   @db.VarChar(3) @default("USD")
+  creditCardType   String   @db.VarChar(255)
+  creditCardNumber Int
+  customer         Customer @relation(fields: [customerId], references: [id])
+  customerId       Int
+}
+
+model Customer {
+  id             Int      @id @default(autoincrement())
+  externalId     String   @unique
+  email          String   @unique
+  firstName      String?
+  lastName       String?
+  gender         Gender?
+  country        String?
+  city           String?
+  street         String?
+  phone          String?
+  transactions   Transaction[]
+}
+
+enum Gender {
+  FEMALE
+  MALE
+}

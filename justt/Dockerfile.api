@@ -10,10 +10,10 @@ COPY package.json package-lock.json ./
 
 RUN apk add --no-cache bash
 
+COPY . .
+
 RUN export PATH=:"$PATH:/usr/app/node_modules/.bin:" && \
   npm i
-
-COPY . .
 
 ENV PORT=${PORT}
 

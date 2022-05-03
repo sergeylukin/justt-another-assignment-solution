@@ -1,9 +1,9 @@
 import { Route } from 'react-router-dom';
 
-import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
+import { Home } from './home/home';
 
 export function App() {
-  return <Route path="/" exact render={() => <FeedList />} />;
+  return <Route path="/" exact render={() => <Home />} />;
 }
 
 export default App;

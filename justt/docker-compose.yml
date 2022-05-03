@@ -37,9 +37,6 @@ services:
         PORT: 4200
     volumes:
       *justt-volumes
-    depends_on:
-      api:
-        condition: service_healthy
     ports:
       - '4200:4200'
     healthcheck:

@@ -15,9 +15,7 @@ services:
       context: ./
       target: development
       dockerfile: ./apps/api/Dockerfile
-    environment:
-      - DATABASE_URL="postgresql://prisma:prisma@postgres:5432/prisma?schema=public"
-    command: ["./scripts/wait-for-it.sh", "postgres:5432", "--", "./scripts/docker-api-dev.sh"]
+    command: ["./scripts/wait-for-it.sh", "${DB_HOST}:${DB_PORT}", "--", "./scripts/docker-api-dev.sh", "${DATABASE_URL}"]
     depends_on:
       - postgres
     restart: unless-stopped
@@ -42,13 +40,14 @@ services:
       - 4200:4200
     command: ["npm", "run", "serve:web"]
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:80']
+      test: ['CMD', 'curl', '-f', 'http://localhost:4200']
       <<: *default-healthchecks
 
   postgres:
     image: postgres:14-alpine
+    container_name: ${DB_HOST}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
     environment:
       POSTGRES_DB: prisma
       POSTGRES_USER: prisma

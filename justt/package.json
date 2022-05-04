@@ -6,7 +6,7 @@
     "start": "nx serve",
     "serve:api": "nx run api:serve --host 0.0.0.0",
     "serve:web": "nx serve front-website --host 0.0.0.0 --open",
-    "serve:all": "npm run prisma:apply && concurrently \"npm run serve:api\" \"npm run serve:web\"",
+    "serve:all": "export DB_HOST='localhost' && npm run prisma:apply && concurrently \"npm run serve:api\" \"npm run serve:web\"",
     "build:api": "nx build api",
     "build:web": "nx build front-website",
     "build": "concurrently \"npm run build:api\" \"npm run buildweb\"",

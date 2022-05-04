@@ -43,6 +43,20 @@ services:
       test: ['CMD', 'curl', '-f', 'http://localhost:4200']
       <<: *default-healthchecks
 
+  webserver:
+    image: nginx:1.19.2
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - app
+      - api
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - "80:80"
+      - "443:443"
+
   postgres:
     image: postgres:14-alpine
     container_name: ${DB_HOST}

@@ -4,6 +4,8 @@ services:
   - type: web
     name: api
     env: docker
+    domains:
+      - justt-api.sergeylukin.com
     dockerfilePath: ./apps/api/Dockerfile
     repo: 'https://github.com/sergeylukin/justt-another-assignment-solution.git'
     dockerCommand: ./apps/api/entrypoint.sh
@@ -37,6 +39,8 @@ services:
   - type: web
     name: app
     env: static
+    domains:
+      - justt.sergeylukin.com
     buildCommand: 'npm run build:web'
     staticPublishPath: ./dist/apps/front-website
     headers:
@@ -60,14 +64,14 @@ services:
           property: port
     routes:
       - type: rewrite
-        source: /api
-        destination: 'https://api-127p.onrender.com/api/'
-      - type: rewrite
         source: /api/
-        destination: 'https://api-127p.onrender.com/api/'
+        destination: 'https://justt-api.sergeylukin.com/api/'
+      - type: redirect
+        source: /api
+        destination: '/api/'
       - type: rewrite
         source: /api/*
-        destination: 'https://api-127p.onrender.com/api/*'
+        destination: 'https://justt-api.sergeylukin.com/api/*'
 databases:
   - name: justt-db
     databaseName: justt

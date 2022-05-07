@@ -1,7 +1,13 @@
 import { Gender, PrismaClient } from '@prisma/client';
 const data = require('./seed.json');
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?schema=public`,
+    },
+  },
+});
 
 async function main() {
   console.log('Seeding...');

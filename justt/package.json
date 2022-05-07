@@ -4,17 +4,17 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "serve:api": "nx run api:serve --host 0.0.0.0",
-    "serve:web": "nx serve front-website --host 0.0.0.0 --open",
+    "serve:api": "NODE_ENV=development nx run api:serve --host 0.0.0.0",
+    "serve:web": "NODE_ENV=development nx serve front-website --host 0.0.0.0",
     "serve:all": "export DB_HOST='localhost' && npm run prisma:apply && concurrently \"npm run serve:api\" \"npm run serve:web\"",
-    "build:api": "nx build api",
-    "build:web": "nx build front-website",
+    "build:api": "NODE_ENV=production nx build api",
+    "build:web": "NODE_ENV=production nx build front-website",
     "build": "concurrently \"npm run build:api\" \"npm run buildweb\"",
     "test": "nx test",
     "prisma:generate": "npx prisma generate",
-    "prisma:migrate": "npx prisma migrate dev --name init",
-    "prisma:apply": "npm run prisma:generate && npm run prisma:migrate",
-    "seed": "ts-node prisma/seed.ts"
+    "prisma:migrate": "npx prisma migrate dev --name",
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:apply": "npm run prisma:generate && npm run prisma:migrate init && npm run prisma:seed"
   },
   "private": true,
   "dependencies": {
@@ -42,7 +42,8 @@
     "rxjs": "^7.0.0",
     "swagger-ui-express": "^4.3.0",
     "use-lilius": "2.0.0",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "prisma": "^3.13.0"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",
@@ -91,7 +92,6 @@
     "jest": "27.2.3",
     "nx": "13.9.3",
     "prettier": "^2.5.1",
-    "prisma": "^3.13.0",
     "react-test-renderer": "17.0.2",
     "ts-jest": "27.0.5",
     "tslib": "^2.0.0",

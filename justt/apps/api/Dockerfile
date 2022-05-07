@@ -12,6 +12,8 @@ COPY . .
 
 RUN npm run build:api
 
+RUN $(npm bin)/tsc prisma/seed.ts; exit 0
+
 FROM node:14.5.0-alpine AS production
 
 ARG NODE_ENV=production
@@ -26,5 +28,6 @@ RUN npm ci --production && npm cache clean --force
 COPY . .
 
 COPY --from=development /usr/app/dist ./dist
+COPY --from=development /usr/app/prisma ./prisma
 
-CMD ["node", "dist/main"]
+CMD ["./apps/api/entrypoint.sh"]

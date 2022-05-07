@@ -115,9 +115,9 @@ from your host machine, perform following steps:
   npm install && npm run serve:all
   ```
 
-## Production
+## On premise Production
 
-Regardless to which deployment method you choose for production, you'd probably need to build optimized docker images. For optimized docker images you'd need to:
+Regardless to which deployment method you choose for on premise production, you'd probably need to build optimized docker images. For optimized docker images you'd need to:
 
 - make sure to setup DB and fill in production values in `.env` file
 
@@ -134,3 +134,8 @@ Regardless to which deployment method you choose for production, you'd probably 
   DOCKER_BUILDKI=1 docker build -t justt/web -f apps/front-website/Dockerfile .
   docker run -it --rm -p 443:443 -e API_HOST={YOUR API DOMAIN NAME} -e API_PORT=443 --name justt-web justt/web
   ```
+
+## Managed production
+
+Yay! Check out https://render.com/ and out of the box working [cluster
+configuration](./render.yaml) of this project ([LIVE DEMO](https://justt.sergeylukin.com/)).

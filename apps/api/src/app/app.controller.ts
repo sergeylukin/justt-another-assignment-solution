@@ -46,20 +46,24 @@ export class AppController {
             {
               creditCardType: {
                 contains: searchString,
+                mode: 'insensitive',
               },
             },
             {
               currency: {
                 contains: searchString,
+                mode: 'insensitive',
               },
             },
           ],
         }
       : {};
 
+    // @ts-ignore
     return this.dataService.transaction.findMany({
-      where: or,
       include: { customer: true },
+      // @ts-ignore
+      where: or,
       take: Number(take) || undefined,
       skip: Number(skip) || undefined,
       orderBy: {

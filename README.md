@@ -1,5 +1,15 @@
 # JUSTT
 
+## Live demos
+
+API Swagger:
+
+https://justt.sergeylukin.com/api/
+
+LIVE demo (auto synced with `main` branch)
+
+https://justt.sergeylukin.com/
+
 ## Quick start
 
 For quick start, run

@@ -7,7 +7,7 @@
     "serve:api": "NODE_ENV=development nx run api:serve --host 0.0.0.0",
     "serve:web": "NODE_ENV=development nx serve front-website --host 0.0.0.0",
     "serve:all": "export DB_HOST='localhost' && npm run prisma:apply && concurrently \"npm run serve:api\" \"npm run serve:web\"",
-    "build:api": "NODE_ENV=production nx build api",
+    "build:api": "npm run prisma:generate && NODE_ENV=production nx build api",
     "build:web": "NODE_ENV=production nx build front-website",
     "build": "concurrently \"npm run build:api\" \"npm run buildweb\"",
     "test": "nx test",

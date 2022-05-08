@@ -11,8 +11,8 @@ import { AppModule } from './app/app.module';
 
 const configureSwagger = (app) => {
   const options = new DocumentBuilder()
-    .setTitle('Production Angular API')
-    .setDescription('REST API for the Production Angular course')
+    .setTitle('Justt another API')
+    .setDescription('REST API for Justt project')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);

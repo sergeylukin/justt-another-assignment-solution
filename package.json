@@ -18,8 +18,8 @@
   },
   "private": true,
   "dependencies": {
-    "@chakra-ui/icons": "1.1.7",
-    "@chakra-ui/react": "1.8.6",
+    "@chakra-ui/icons": "^1.1.7",
+    "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "11.8.2",
     "@emotion/styled": "11.8.1",
     "@nestjs/common": "^8.0.0",
@@ -31,8 +31,9 @@
     "@prisma/client": "^3.13.0",
     "axios": "0.26.1",
     "core-js": "^3.6.5",
-    "framer-motion": "4.1.17",
+    "framer-motion": "^4.1.17",
     "joi": "^17.6.0",
+    "prisma": "^3.13.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "4.3.1",
@@ -42,8 +43,7 @@
     "rxjs": "^7.0.0",
     "swagger-ui-express": "^4.3.0",
     "use-lilius": "2.0.0",
-    "uuid": "8.3.2",
-    "prisma": "^3.13.0"
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",

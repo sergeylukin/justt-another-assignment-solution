@@ -64,9 +64,9 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
         fontSize={'sm'}
         fontWeight={600}
         color={'white'}
-        bg={'pink.400'}
+        bg={'red.400'}
         _hover={{
-          bg: 'pink.300',
+          bg: 'red.300',
         }}
         onClick={() => {
           submit();
@@ -151,9 +151,9 @@ export function Home() {
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
-              bg={'pink.400'}
+              bg={'red.400'}
               _hover={{
-                bg: 'pink.300',
+                bg: 'red.300',
               }}
               onClick={submit}
             >
@@ -166,9 +166,7 @@ export function Home() {
           <MobileBar setSearchString={setSearchString} submit={submit} />
         </Collapse>
       </Box>
-      <Container maxW={'7xl'}>
-        <FeedList feed={feed} />
-      </Container>
+      <FeedList feed={feed} />
     </>
   );
 }

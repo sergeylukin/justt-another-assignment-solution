@@ -44,13 +44,11 @@ export class AppController {
       ? {
           OR: [
             {
-              mode: 'insensitive',
               creditCardType: {
                 contains: searchString,
               },
             },
             {
-              mode: 'insensitive',
               currency: {
                 contains: searchString,
               },

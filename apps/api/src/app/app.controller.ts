@@ -15,7 +15,7 @@ import {
   Prisma,
 } from '@prisma/client';
 
-import { PrismaService } from './prisma.service'
+import { PrismaService } from './prisma.service';
 
 @Controller()
 export class AppController {
@@ -43,8 +43,18 @@ export class AppController {
     const or = searchString
       ? {
           OR: [
-            { creditCardType: { contains: searchString } },
-            { currency: { contains: searchString } },
+            {
+              mode: 'insensitive',
+              creditCardType: {
+                contains: searchString,
+              },
+            },
+            {
+              mode: 'insensitive',
+              currency: {
+                contains: searchString,
+              },
+            },
           ],
         }
       : {};
@@ -68,10 +78,7 @@ export class AppController {
   @Get('customer/:id')
   async getCustomerById(@Param('id') id: string): Promise<CustomerModel> {
     return this.dataService.customer.findFirst({
-      where: { OR: [
-        {id: parseInt(id, 10)},
-        {externalId: id}
-      ]},
+      where: { OR: [{ id: parseInt(id, 10) }, { externalId: id }] },
     });
   }
 
@@ -121,16 +128,16 @@ export class AppController {
   async signupCustomer(
     @Body()
     customerData: {
-      externalId:      string;
-      email:           string;
-      firstName?:      string;
-      lastName?:       string;
-      gender?:         Gender;
-      country?:        string;
-      city?:           string;
-      street?:         string;
-      phone?:          string;
-      transactions?:   Prisma.TransactionCreateInput[];
+      externalId: string;
+      email: string;
+      firstName?: string;
+      lastName?: string;
+      gender?: Gender;
+      country?: string;
+      city?: string;
+      street?: string;
+      phone?: string;
+      transactions?: Prisma.TransactionCreateInput[];
     }
   ): Promise<CustomerModel> {
     const transactionData = customerData.transactions?.map((transaction) => {

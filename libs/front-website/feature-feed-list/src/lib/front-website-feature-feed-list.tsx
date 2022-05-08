@@ -37,13 +37,16 @@ const Card = ({ transaction }: CardPropsInterface) => {
             color={'green.500'}
             rounded={'full'}
           >
-            {`${transaction.customer.firstName} ${transaction.customer.lastName}`}
+            {`${transaction.creditCardType} ending in ${transaction.creditCardNumber}`}
           </Text>
           <Stack direction={'row'} align={'center'} justify={'center'}>
             <Text fontSize={'6xl'} fontWeight={800}>
               {transaction.price} {transaction.currency}
             </Text>
           </Stack>
+          <Text fontSize={'4xl'} fontWeight={800}>
+            {`${transaction.customer.firstName} ${transaction.customer.lastName}`}
+          </Text>
         </Stack>
 
         <Box bg={useColorModeValue('gray.50', 'gray.900')} px={6} py={10}>

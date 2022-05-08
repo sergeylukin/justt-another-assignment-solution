@@ -40,6 +40,7 @@ export class AppController {
     @Query('searchString') searchString?: string,
     @Query('orderBy') orderBy?: 'asc' | 'desc'
   ): Promise<TransactionWithCustomer[]> {
+    // @ts-ignore
     const or = searchString
       ? {
           OR: [
@@ -53,6 +54,46 @@ export class AppController {
               currency: {
                 contains: searchString,
                 mode: 'insensitive',
+              },
+            },
+            {
+              customer: {
+                firstName: {
+                  contains: searchString,
+                  mode: 'insensitive',
+                },
+              },
+            },
+            {
+              customer: {
+                lastName: {
+                  contains: searchString,
+                  mode: 'insensitive',
+                },
+              },
+            },
+            {
+              customer: {
+                country: {
+                  contains: searchString,
+                  mode: 'insensitive',
+                },
+              },
+            },
+            {
+              customer: {
+                city: {
+                  contains: searchString,
+                  mode: 'insensitive',
+                },
+              },
+            },
+            {
+              customer: {
+                street: {
+                  contains: searchString,
+                  mode: 'insensitive',
+                },
               },
             },
           ],

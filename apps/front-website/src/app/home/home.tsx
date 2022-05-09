@@ -166,7 +166,7 @@ export function Home() {
           <MobileBar setSearchString={setSearchString} submit={submit} />
         </Collapse>
       </Box>
-      <FeedList feed={feed} />
+      <FeedList feed={feed} setFeed={setFeed} />
     </>
   );
 }

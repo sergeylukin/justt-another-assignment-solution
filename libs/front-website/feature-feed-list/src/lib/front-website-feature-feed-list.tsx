@@ -7,12 +7,14 @@ import {
   useColorModeValue,
   Container,
 } from '@chakra-ui/react';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { TransactionWithCustomer } from '@justt/api-interfaces';
 
 interface CardPropsInterface {
   transaction: TransactionWithCustomer;
+  deleteTransaction: (transaction: TransactionWithCustomer) => void;
 }
-const Card = ({ transaction }: CardPropsInterface) => {
+const Card = ({ transaction, deleteTransaction }: CardPropsInterface) => {
   return (
     <Center py={6}>
       <Box
@@ -28,6 +30,11 @@ const Card = ({ transaction }: CardPropsInterface) => {
           color={useColorModeValue('gray.800', 'white')}
           align={'center'}
         >
+          <DeleteIcon
+            color="red.500"
+            mr="2"
+            onClick={() => deleteTransaction(transaction)}
+          />
           <Text
             fontSize={'sm'}
             fontWeight={500}
@@ -74,16 +81,28 @@ const Card = ({ transaction }: CardPropsInterface) => {
 /* eslint-disable-next-line */
 export interface FrontWebsiteFeatureFeedListProps {
   feed: TransactionWithCustomer[];
+  setFeed: (feed: TransactionWithCustomer[]) => void;
 }
 
 export function FrontWebsiteFeatureFeedList(
   props: FrontWebsiteFeatureFeedListProps
 ) {
-  const { feed } = props;
+  const { feed, setFeed } = props;
+  const deleteTransaction = (transaction: TransactionWithCustomer) => {
+    const newFeed = feed.filter((item) => {
+      return item.id !== transaction.id;
+    });
+    setFeed(newFeed);
+  };
   return (
     <Container>
       {Array.isArray(feed) &&
-        feed.map((transaction) => <Card transaction={transaction} />)}
+        feed.map((transaction) => (
+          <Card
+            transaction={transaction}
+            deleteTransaction={deleteTransaction}
+          />
+        ))}
     </Container>
   );
 }

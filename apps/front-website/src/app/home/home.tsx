@@ -1,7 +1,8 @@
-import { useFeed } from '@justt/front-website/data-access-feed';
-import { useState, useEffect } from 'react';
+import { fetchFeed } from '@justt/front-website/data-access-feed';
+import { useState, useEffect, useMemo } from 'react';
+import { map, catchError, startWith } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import {
-  Container,
   Button,
   Input,
   Stack,
@@ -18,6 +19,17 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
 import { TransactionWithCustomer } from '@justt/api-interfaces';
+
+const useObservable = (observable: Observable<any>) => {
+  const [value, setValue] = useState();
+  useEffect(() => {
+    const subscription = observable.subscribe((result) => {
+      setValue(result);
+    });
+    return () => subscription.unsubscribe();
+  }, [observable]);
+  return value;
+};
 
 const DesktopBar = ({ setSearchString, submit }: BarInterface) => {
   return (
@@ -83,14 +95,20 @@ export function Home() {
   const [feed, setFeed] = useState<TransactionWithCustomer[]>([]);
   const [searchString, setSearchString] = useState('');
   const [fetchSearchString, setFetchSearchString] = useState('');
-  const feedData = useFeed(fetchSearchString);
+
+  const feed$ = useMemo(
+    () =>
+      fetchFeed(fetchSearchString).pipe(
+        map((data) => <FeedList feed={data} setFeed={setFeed} />),
+        catchError(() => of(<div className="err">ERROR</div>)),
+        startWith(<div className="loading">loading...</div>)
+      ),
+    [fetchSearchString]
+  );
+  const output = useObservable(feed$);
   const submit = () => {
     setFetchSearchString(searchString);
   };
-
-  useEffect(() => {
-    setFeed(feedData);
-  }, [feedData, setFeed]);
 
   return (
     <>
@@ -166,7 +184,8 @@ export function Home() {
           <MobileBar setSearchString={setSearchString} submit={submit} />
         </Collapse>
       </Box>
-      <FeedList feed={feed} setFeed={setFeed} />
+      {/*<$>{feed$}</$>*/}
+      {output}
     </>
   );
 }

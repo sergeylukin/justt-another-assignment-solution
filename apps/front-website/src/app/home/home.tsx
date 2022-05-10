@@ -1,7 +1,8 @@
-import { useFeed } from '@justt/front-website/data-access-feed';
-import { useState, useEffect } from 'react';
+import { feedApi, fetchFeed } from '@justt/front-website/data-access-feed';
+import { useState, useEffect, useMemo, useLayoutEffect, Suspense } from 'react';
+import { map, catchError, startWith } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import {
-  Container,
   Button,
   Input,
   Stack,
@@ -18,6 +19,17 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 import { FrontWebsiteFeatureFeedList as FeedList } from '@justt/front-website/feature-feed-list';
 import { TransactionWithCustomer } from '@justt/api-interfaces';
+
+const useObservable = (observable: Observable<any>) => {
+  const [value, setValue] = useState();
+  useEffect(() => {
+    const subscription = observable.subscribe((result) => {
+      setValue(result);
+    });
+    return () => subscription.unsubscribe();
+  }, [observable]);
+  return value;
+};
 
 const DesktopBar = ({ setSearchString, submit }: BarInterface) => {
   return (
@@ -64,9 +76,9 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
         fontSize={'sm'}
         fontWeight={600}
         color={'white'}
-        bg={'pink.400'}
+        bg={'red.400'}
         _hover={{
-          bg: 'pink.300',
+          bg: 'red.300',
         }}
         onClick={() => {
           submit();
@@ -80,17 +92,34 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 
 export function Home() {
   const { isOpen, onToggle } = useDisclosure();
-  const [feed, setFeed] = useState<TransactionWithCustomer[]>([]);
+  // const [feed, setFeed] = useState<TransactionWithCustomer[]>([]);
   const [searchString, setSearchString] = useState('');
   const [fetchSearchString, setFetchSearchString] = useState('');
-  const feedData = useFeed(fetchSearchString);
+
+  const [chatState, setChatState] = useState(feedApi.chatStore.initialState);
+  useLayoutEffect(() => {
+    feedApi.chatStore.subscribe(setChatState);
+    feedApi.chatStore.init();
+    feedApi.chatStore.fetch();
+  }, []);
+
+  useEffect(() => {
+    feedApi.chatStore.fetch();
+  }, [fetchSearchString]);
+
+  const feed$ = useMemo(
+    () =>
+      fetchFeed(fetchSearchString).pipe(
+        map((data) => <FeedList feed={data} setFeed={setFeed} />),
+        catchError(() => of(<div className="err">ERROR</div>)),
+        startWith(<div className="loading">loading...</div>)
+      ),
+    [fetchSearchString]
+  );
+  const output = useObservable(feed$);
   const submit = () => {
     setFetchSearchString(searchString);
   };
-
-  useEffect(() => {
-    setFeed(feedData);
-  }, [feedData, setFeed]);
 
   return (
     <>
@@ -151,9 +180,9 @@ export function Home() {
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
-              bg={'pink.400'}
+              bg={'red.400'}
               _hover={{
-                bg: 'pink.300',
+                bg: 'red.300',
               }}
               onClick={submit}
             >
@@ -166,9 +195,11 @@ export function Home() {
           <MobileBar setSearchString={setSearchString} submit={submit} />
         </Collapse>
       </Box>
-      <Container maxW={'7xl'}>
-        <FeedList feed={feed} />
-      </Container>
+      {/*<$>{feed$}</$>*/}
+      {output}
+      {chatState.data.map((item) => (
+        <div>{item.id}</div>
+      ))}
     </>
   );
 }

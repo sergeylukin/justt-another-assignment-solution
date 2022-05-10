@@ -1,45 +1,109 @@
-import styled from '@emotion/styled';
+import {
+  Box,
+  Center,
+  Text,
+  Stack,
+  Button,
+  useColorModeValue,
+  Container,
+} from '@chakra-ui/react';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { TransactionWithCustomer } from '@justt/api-interfaces';
 
-const StyledFrontWebsiteFeatureFeedList = styled.div`
-  color: black;
-  with: 80%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 3rem;
-`;
-const NameStyled = styled.span`
-  padding-right: 5rem;
-`;
+interface CardPropsInterface {
+  transaction: TransactionWithCustomer;
+  deleteTransaction: (transaction: TransactionWithCustomer) => void;
+}
+const Card = ({ transaction, deleteTransaction }: CardPropsInterface) => {
+  return (
+    <Center py={6}>
+      <Box
+        w={'3xl'}
+        bg={useColorModeValue('white', 'gray.800')}
+        boxShadow={'2xl'}
+        rounded={'md'}
+        overflow={'hidden'}
+      >
+        <Stack
+          textAlign={'center'}
+          p={6}
+          color={useColorModeValue('gray.800', 'white')}
+          align={'center'}
+        >
+          <DeleteIcon
+            color="red.500"
+            mr="2"
+            onClick={() => deleteTransaction(transaction)}
+          />
+          <Text
+            fontSize={'sm'}
+            fontWeight={500}
+            bg={useColorModeValue('green.50', 'green.900')}
+            p={2}
+            px={3}
+            color={'green.500'}
+            rounded={'full'}
+          >
+            {`${transaction.creditCardType} ending in ${transaction.creditCardNumber}`}
+          </Text>
+          <Stack direction={'row'} align={'center'} justify={'center'}>
+            <Text fontSize={'6xl'} fontWeight={800}>
+              {transaction.price} {transaction.currency}
+            </Text>
+          </Stack>
+          <Text fontSize={'4xl'} fontWeight={800}>
+            {`${transaction.customer.firstName} ${transaction.customer.lastName}`}
+          </Text>
+        </Stack>
+
+        <Box bg={useColorModeValue('gray.50', 'gray.900')} px={6} py={10}>
+          <Button
+            w={'full'}
+            bg={'red.400'}
+            color={'white'}
+            rounded={'xl'}
+            boxShadow={'0 5px 20px 0px rgb(187 72 72 / 43%)'}
+            _hover={{
+              bg: 'red.500',
+            }}
+            _focus={{
+              bg: 'red.500',
+            }}
+          >
+            {`${transaction.customer.street} ${transaction.customer.city},  ${transaction.customer.country}`}
+          </Button>
+        </Box>
+      </Box>
+    </Center>
+  );
+};
 
 /* eslint-disable-next-line */
 export interface FrontWebsiteFeatureFeedListProps {
   feed: TransactionWithCustomer[];
+  setFeed: (feed: TransactionWithCustomer[]) => void;
 }
 
 export function FrontWebsiteFeatureFeedList(
   props: FrontWebsiteFeatureFeedListProps
 ) {
-  const { feed } = props;
+  const { feed, setFeed } = props;
+  const deleteTransaction = (transaction: TransactionWithCustomer) => {
+    const newFeed = feed.filter((item) => {
+      return item.id !== transaction.id;
+    });
+    setFeed(newFeed);
+  };
   return (
-    <StyledFrontWebsiteFeatureFeedList>
-      <table>
-        {Array.isArray(feed) &&
-          feed.map((transaction) => (
-            <tr key={transaction.id}>
-              <td align="left">
-                <NameStyled>{`${transaction.customer.firstName} ${transaction.customer.lastName}`}</NameStyled>
-              </td>
-              <td align="right">
-                <strong>{transaction.price}</strong>
-              </td>
-              <td>
-                <small>{transaction.currency}</small>
-              </td>
-            </tr>
-          ))}
-      </table>
-    </StyledFrontWebsiteFeatureFeedList>
+    <Container>
+      {Array.isArray(feed) &&
+        feed.map((transaction) => (
+          <Card
+            transaction={transaction}
+            deleteTransaction={deleteTransaction}
+          />
+        ))}
+    </Container>
   );
 }
 

@@ -125,7 +125,7 @@ from your host machine, perform following steps:
   npm install && npm run serve:all
   ```
 
-## On premise Production
+### On premise Production
 
 Regardless to which deployment method you choose for on premise production, you'd probably need to build optimized docker images. For optimized docker images you'd need to:
 
@@ -145,7 +145,19 @@ Regardless to which deployment method you choose for on premise production, you'
   docker run -it --rm -p 443:443 -e API_HOST={YOUR API DOMAIN NAME} -e API_PORT=443 --name justt-web justt/web
   ```
 
-## Managed production
+### Managed production
 
 Yay! Check out https://render.com/ and out of the box working [cluster
 configuration](./render.yaml) of this project ([LIVE DEMO](https://justt.sergeylukin.com/)).
+
+## Tips for development
+
+### NPM dependencies versioning
+
+In order to avoid surprises with dependencies, it's recommended to keep
+versioning locked. You can use this script to lock your versions in
+`package.json` as they appear in `package-lock.json`:
+
+```
+$ bash <(curl -s https://raw.githubusercontent.com/sergeylukin/npmlock.sh/main/npmlock.sh)
+```

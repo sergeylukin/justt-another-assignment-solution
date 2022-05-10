@@ -2,10 +2,45 @@ import { map, switchMap } from 'rxjs/operators';
 import { fromFetch } from 'rxjs/fetch';
 import { useState, useEffect } from 'react';
 
-import { timer, zip } from 'rxjs';
+import { Subject, timer, zip } from 'rxjs';
 import axios from 'axios';
 
 import { TransactionWithCustomer, FEED_API_URL } from '@justt/api-interfaces';
+
+const subject = new Subject();
+
+const initialState = {
+  status: '',
+  data: [],
+  newDataCount: 0,
+  error: '',
+};
+
+let state = initialState;
+
+export const chatStore = {
+  init: () => {
+    state = { ...state, newDataCount: 0 };
+    subject.next(state);
+  },
+  subscribe: (setState) => subject.subscribe(setState),
+  sendMessage: (message) => {
+    state = {
+      ...state,
+      data: [...state.data, message],
+      newDataCount: state.newDataCount + 1,
+    };
+    subject.next(state);
+  },
+  clearChat: () => {
+    state = initialState;
+    subject.next(state);
+  },
+  initialState,
+  fetch: () => {
+    console.log('fetching');
+  },
+};
 
 const findBy = async (searchString: string) =>
   await axios.get(
@@ -37,6 +72,7 @@ export const fetchFeed = (searchString: string) => {
 export const feedApi = {
   useFeed,
   findBy,
+  chatStore,
 };
 
 export default useFeed;

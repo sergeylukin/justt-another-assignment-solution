@@ -29,6 +29,8 @@
     "@nestjs/platform-express": "8.4.1",
     "@nestjs/swagger": "5.2.1",
     "@prisma/client": "3.13.0",
+    "@react-rxjs/core": "^0.9.6",
+    "@react-rxjs/utils": "^0.9.5",
     "axios": "0.26.1",
     "core-js": "3.21.1",
     "framer-motion": "4.1.17",

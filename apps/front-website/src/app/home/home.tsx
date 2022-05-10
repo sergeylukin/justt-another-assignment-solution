@@ -1,5 +1,5 @@
-import { fetchFeed } from '@justt/front-website/data-access-feed';
-import { useState, useEffect, useMemo } from 'react';
+import { feedApi, fetchFeed } from '@justt/front-website/data-access-feed';
+import { useState, useEffect, useMemo, useLayoutEffect, Suspense } from 'react';
 import { map, catchError, startWith } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import {
@@ -92,9 +92,20 @@ const MobileBar = ({ setSearchString, submit }: BarInterface) => {
 
 export function Home() {
   const { isOpen, onToggle } = useDisclosure();
-  const [feed, setFeed] = useState<TransactionWithCustomer[]>([]);
+  // const [feed, setFeed] = useState<TransactionWithCustomer[]>([]);
   const [searchString, setSearchString] = useState('');
   const [fetchSearchString, setFetchSearchString] = useState('');
+
+  const [chatState, setChatState] = useState(feedApi.chatStore.initialState);
+  useLayoutEffect(() => {
+    feedApi.chatStore.subscribe(setChatState);
+    feedApi.chatStore.init();
+    feedApi.chatStore.fetch();
+  }, []);
+
+  useEffect(() => {
+    feedApi.chatStore.fetch();
+  }, [fetchSearchString]);
 
   const feed$ = useMemo(
     () =>
@@ -186,6 +197,9 @@ export function Home() {
       </Box>
       {/*<$>{feed$}</$>*/}
       {output}
+      {chatState.data.map((item) => (
+        <div>{item.id}</div>
+      ))}
     </>
   );
 }
